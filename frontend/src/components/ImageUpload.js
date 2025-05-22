@@ -43,7 +43,7 @@ function ImageUpload() {
     formData.append('image', selectedFile);
 
     try {
-      console.log('Uploading image:', selectedFile.name);
+      // console.log('Uploading image:', selectedFile.name); // Keep for debugging if needed
       const response = await fetch('http://127.0.0.1:5000/api/upload_image', {
         method: 'POST',
         body: formData,
@@ -55,18 +55,17 @@ function ImageUpload() {
       }
 
       const result = await response.json();
-      setSuccess(result.message || 'Image processed successfully!');
-      console.log('Upload result:', result);
+      setSuccess(result.message); 
+      // console.log('Upload result:', result); // Keep for debugging if needed
 
       if (result.latitude != null && result.longitude != null) {
         setLocation({ lat: result.latitude, lon: result.longitude });
       } else {
-        setLocation(null); // No location data from backend
+        setLocation(null); 
       }
 
-      // Reset form
-      setSelectedFile(null);
-      // Keep preview for better UX
+      setSelectedFile(null); // Reset file input after successful upload
+      // Preview is kept for UX
     } catch (error) {
       console.error('Error uploading image:', error);
       setError(error.message || 'Error uploading image. Please try again.');
@@ -81,21 +80,30 @@ function ImageUpload() {
     setLocation(null);
     setError(null);
     setSuccess(null);
+    // Also reset the file input visually if possible (though this is tricky with controlled file inputs)
+    const fileInput = document.getElementById('file-upload');
+    if (fileInput) {
+      fileInput.value = ""; // Attempt to clear the file input field
+    }
   };
 
   return (
-    <div className={`layout-container fade-in ${location && location.lat != null && location.lon != null ? 'with-map' : 'centered'}`}>
-      <div className="upload-section">
-        <div className="upload-container">
+    // layout-container and its variants are managed in App.css for overall page structure
+    <div className={`layout-container ${location && location.lat != null && location.lon != null ? 'with-map' : 'centered'}`}>
+      <div className="upload-section"> {/* This class is used for the grid layout in App.css */}
+        <div className="upload-container card"> {/* Added 'card' for consistent styling if desired, or can be styled directly */}
           <h2>Upload Your Photo</h2>
           <p className="subtitle">Upload a photo with location data to see where it was taken</p>
           
           <div className="file-input-wrapper">
             <label htmlFor="file-upload" className="file-input-label">
-              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
+                {/* Using a simpler, more modern icon: Upload/Cloud icon */}
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M12 12v9" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 12l-3.5 3.5M12 12l3.5 3.5" />
+
               </svg>
-              {selectedFile ? selectedFile.name : 'Choose a photo'}
+              {selectedFile ? selectedFile.name : 'Choose or drop a photo'}
             </label>
             <input 
               id="file-upload" 
@@ -112,27 +120,27 @@ function ImageUpload() {
           )}
 
           {error && (
-            <div className="error-message" style={{ color: 'var(--error-color)', padding: '10px', borderRadius: 'var(--border-radius)', backgroundColor: 'rgba(244, 67, 54, 0.1)' }}>
+            <div className="error-message">
               {error}
             </div>
           )}
 
           {success && (
-            <div className="success-message" style={{ color: 'var(--success-color)', padding: '10px', borderRadius: 'var(--border-radius)', backgroundColor: 'rgba(76, 175, 80, 0.1)' }}>
+            <div className="success-message">
               {success}
             </div>
           )}
 
-          <div className="button-group" style={{ display: 'flex', gap: '10px', justifyContent: 'center', marginTop: '20px' }}>
-            {preview && (
-              <button onClick={resetForm} disabled={isLoading} style={{ backgroundColor: 'var(--text-medium)' }}>
+          <div className="button-group">
+            {preview && ( // Show "New Photo" button only if there's a preview
+              <button onClick={resetForm} disabled={isLoading} className="button-secondary">
                 New Photo
               </button>
             )}
             <button onClick={handleSubmit} disabled={!selectedFile || isLoading}>
               {isLoading ? (
                 <>
-                  <div className="loading-spinner" style={{ width: '16px', height: '16px', margin: '0' }}></div>
+                  <div className="loading-spinner"></div> {/* Removed inline style */}
                   Processing...
                 </>
               ) : 'Upload & Locate'}
@@ -142,12 +150,12 @@ function ImageUpload() {
       </div>
 
       {location && location.lat != null && location.lon != null && (
-        <div className="map-section fade-in">
-          <div className="location-info">
+        <div className="map-section"> {/* This class is used for the grid layout in App.css */}
+          <div className="location-info card"> {/* Added 'card' for consistent styling */}
             <h3>Photo Location Found!</h3>
             <p>Coordinates: {location.lat.toFixed(6)}, {location.lon.toFixed(6)}</p>
           </div>
-          <div className="map-container">
+          <div className="map-container card"> {/* Added 'card' for consistent styling */}
             <PhotoMap latitude={location.lat} longitude={location.lon} />
           </div>
         </div>

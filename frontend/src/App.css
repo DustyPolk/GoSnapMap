@@ -1,200 +1,196 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
 
 :root {
-  --primary-color: #1e88e5;
-  --primary-dark: #1565c0;
-  --primary-light: #64b5f6;
-  --secondary-color: #26a69a;
-  --background-light: #f8f9fa;
-  --background-white: #ffffff;
-  --text-dark: #212121;
-  --text-medium: #616161;
-  --text-light: #9e9e9e;
-  --error-color: #f44336;
-  --success-color: #4caf50;
-  --border-radius: 12px;
-  --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  --transition-speed: 0.3s;
+  /* Color Palette */
+  --background-primary: #ffffff;
+  --background-secondary: #f0f0f0; /* For subtle differentiation, like card backgrounds */
+  --text-primary: #111111; /* Dark gray, not pure black */
+  --text-secondary: #555555; /* Medium gray */
+  --accent-primary: #007AFF; /* Apple's blue */
+  --border-color: #dddddd; /* Light gray for subtle borders */
+  --error-color: #E53E3E; /* Red for errors */
+  --error-rgb: 229, 62, 62; /* RGB for rgba backgrounds */
+  --success-color: #38A169; /* Green for success */
+  --success-rgb: 56, 161, 105; /* RGB for rgba backgrounds */
+
+  /* Sizing & Spacing */
+  --spacing-unit: 8px;
+  --border-radius-small: 4px;
+  --border-radius-medium: 8px;
+
+  /* Shadows */
+  --box-shadow-subtle: 0 2px 4px rgba(0,0,0,0.05);
+  --box-shadow-medium: 0 4px 12px rgba(0,0,0,0.1); /* Use sparingly */
+  
+  /* Transitions (can be added if subtle animations are desired later) */
+  /* --transition-speed: 0.2s; */
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* Global Styles */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: var(--background-light);
-  color: var(--text-dark);
-  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-family: 'Inter', sans-serif; /* Same as body, or specify different if needed */
+  font-weight: 600; /* Bolder for headings */
+  margin-bottom: calc(var(--spacing-unit) * 2);
+  color: var(--text-primary); /* Ensure headings also use primary text color */
+  line-height: 1.3;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/* Specific heading sizes for a basic hierarchy */
+h1 { font-size: 2.25rem; } /* ~36px */
+h2 { font-size: 1.75rem; } /* ~28px */
+h3 { font-size: 1.25rem; } /* ~20px */
+
+p {
+  margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color 0.2s ease-in-out;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* General Layout */
 .App {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  text-align: center;
-  padding: 0;
+  align-items: center; /* Center content for single column layouts */
+  padding: calc(var(--spacing-unit) * 3); /* Overall app padding */
 }
 
+main {
+  flex: 1;
+  width: 100%;
+  max-width: 1200px; /* Max content width */
+  padding: calc(var(--spacing-unit) * 2) 0; /* Vertical padding */
+}
+
+/* Simplified Header (Example - can be further refined or removed) */
 .App-header {
-  background: linear-gradient(135deg, #2b5876, #4e4376);
-  padding: 1.5rem;
-  color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  position: relative;
-  overflow: hidden;
+  width: 100%;
+  max-width: 1200px; /* Align with main content width */
+  padding: calc(var(--spacing-unit) * 2) 0; /* Padding top/bottom, no side padding if .App handles it */
+  margin-bottom: calc(var(--spacing-unit) * 3);
+  /* border-bottom: 1px solid var(--border-color); */ /* Optional subtle separator */
 }
 
-.App-header::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+CjxyZWN0IHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMDUpIiBzdHJva2Utd2lkdGg9IjEiLz4KPC9zdmc+');
-  opacity: 0.2;
-  z-index: 0;
-}
-
-.header-content {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1400px;
-  margin: 0 auto;
+.App-header h1 {
+  font-size: 1.8rem; /* Slightly smaller for a modern header */
+  margin: 0; /* Reset margin for header's h1 */
+  /* text-align: left; /* Default block behavior or parent flex will handle */
 }
 
 .logo-container {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: calc(var(--spacing-unit) * 1.5); /* Space between logo and h1 */
+  /* margin-bottom: var(--spacing-unit); /* If tagline is outside this container */
 }
 
 .app-logo {
-  animation: pulse 2s infinite ease-in-out alternate;
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
-
-.App-header h1 {
-  margin: 0;
-  font-size: 2.5rem;
-  letter-spacing: 1px;
-  font-weight: 700;
-  background: linear-gradient(to right, #ffffff, #e0e0ff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  color: var(--accent-primary); /* Make logo accent color */
+  flex-shrink: 0; 
 }
 
 .tagline {
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: 0.5px;
-  margin: 0;
-  opacity: 0.9;
+  font-size: 0.95rem; 
+  color: var(--text-secondary);
+  margin-top: calc(var(--spacing-unit) * 0.5); 
+  margin-bottom: 0; 
+  /* text-align: left; /* Default block behavior or parent flex will handle */
 }
 
-@media screen and (max-width: 768px) {
-  .header-content {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .App-header h1 {
-    font-size: 2rem;
-  }
-  
-  .tagline {
-    font-size: 0.9rem;
-  }
-}
 
-main {
-  flex: 1;
-  padding: 1rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  width: 100%;
-}
-
+/* Simplified Card styling */
 .card {
-  background-color: var(--background-white);
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
-  transition: transform var(--transition-speed);
+  background-color: var(--background-primary); /* Or --background-secondary for contrast */
+  border-radius: var(--border-radius-medium);
+  /* border: 1px solid var(--border-color); */ /* Option 1: Subtle border */
+  box-shadow: var(--box-shadow-subtle); /* Option 2: Very subtle shadow */
+  padding: calc(var(--spacing-unit) * 3);
+  margin-bottom: calc(var(--spacing-unit) * 2);
 }
 
-.card:hover {
-  transform: translateY(-3px);
-}
-
+/* Upload Container - basic structure, further styling in component-specific CSS */
 .upload-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem;
+  align-items: center; /* Center contents of upload container */
+  gap: calc(var(--spacing-unit) * 2);
+  width: 100%;
+  /* max-width: 500px; */ /* Example max-width if needed */
+  /* margin: 0 auto; */ /* Center the container itself if it has a max-width */
+  /* If .upload-container is also a .card, padding is handled by .card */
 }
 
-.file-input-wrapper {
-  position: relative;
+.upload-container h2 {
+  text-align: center; 
+}
+
+.subtitle { /* Applied to p tag directly in ImageUpload.js */
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.95rem; /* Slightly adjusted */
+  margin-top: calc(var(--spacing-unit) * -1); 
+  margin-bottom: calc(var(--spacing-unit) * 2.5); /* Increased bottom margin */
+}
+
+/* File Input */
+.file-input-wrapper { /* Added wrapper for potential future layout needs */
   width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
 }
 
 .file-input-label {
   display: flex;
+  flex-direction: column; 
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: var(--spacing-unit);
   width: 100%;
-  padding: 1rem;
-  background-color: var(--background-light);
-  border: 2px dashed var(--primary-light);
-  border-radius: var(--border-radius);
-  color: var(--text-medium);
+  padding: calc(var(--spacing-unit) * 3) calc(var(--spacing-unit) * 2); /* Adjusted padding */
+  background-color: var(--background-secondary);
+  border: 1px solid var(--border-color); /* Changed from dashed */
+  border-radius: var(--border-radius-medium);
+  color: var(--text-primary); /* Changed from text-secondary for better contrast */
   cursor: pointer;
-  transition: all var(--transition-speed);
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  text-align: center;
 }
 
 .file-input-label:hover {
-  background-color: var(--primary-light);
-  color: white;
+  background-color: color-mix(in srgb, var(--accent-primary) 10%, white); /* Lighter accent hover */
+  border-color: color-mix(in srgb, var(--accent-primary) 50%, white);
+  color: var(--accent-primary);
 }
 
 .file-input-label svg {
-  width: 24px;
-  height: 24px;
+  width: calc(var(--spacing-unit) * 4); /* 32px, slightly smaller */
+  height: calc(var(--spacing-unit) * 4);
+  stroke: currentColor; /* Ensure SVG picks up text color, useful for hover */
+  stroke-width: 1.5; 
 }
 
 input[type="file"] {
+  /* Keep it hidden */
   position: absolute;
   width: 0.1px;
   height: 0.1px;
@@ -203,159 +199,117 @@ input[type="file"] {
   z-index: -1;
 }
 
+/* Preview Image - basic structure */
 .preview-container {
-  margin: 1rem 0;
+  margin-top: calc(var(--spacing-unit) * 2);
+  margin-bottom: calc(var(--spacing-unit) * 2);
   text-align: center;
+  width: 100%;
 }
 
 .preview-image {
   max-width: 100%;
-  max-height: 280px;
-  border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-height: 300px; 
+  border-radius: var(--border-radius-medium); /* Updated to medium */
+  border: 1px solid var(--border-color);
   object-fit: contain;
+  box-shadow: var(--box-shadow-subtle); /* Optional subtle shadow */
 }
 
+/* Buttons */
 button {
-  background-color: var(--primary-color);
+  background-color: var(--accent-primary);
   color: white;
   border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  border-radius: var(--border-radius);
+  padding: calc(var(--spacing-unit) * 1.25) calc(var(--spacing-unit) * 2.5); /* Adjusted padding */
+  font-size: 1rem; 
+  font-weight: 500; 
+  border-radius: var(--border-radius-medium);
   cursor: pointer;
-  transition: all var(--transition-speed);
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  gap: var(--spacing-unit);
+  box-shadow: none; /* Remove any default/old shadows */
 }
 
-button:hover {
-  background-color: var(--primary-dark);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+button:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--accent-primary) 85%, black); 
 }
 
-button:active {
-  transform: translateY(0);
+button:active:not(:disabled) {
+  transform: scale(0.98); /* Add active state transform */
 }
 
 button:disabled {
-  background-color: var(--text-light);
+  background-color: var(--background-secondary); /* Updated disabled state */
+  color: var(--text-secondary);
   cursor: not-allowed;
-  transform: none;
-  box-shadow: none;
+  transform: none; /* Ensure no transform on disabled active */
 }
 
-.location-info {
-  margin: 1.5rem 0;
-  padding: 1rem;
-  background-color: rgba(30, 136, 229, 0.1);
-  border-radius: var(--border-radius);
-  color: var(--primary-dark);
+.button-group {
+  display: flex;
+  gap: calc(var(--spacing-unit) * 1.5); /* Adjusted gap */
+  justify-content: center; 
+  margin-top: calc(var(--spacing-unit) * 2.5); /* Adjusted margin */
+  width: 100%; /* Make group take full width for centering/distribution */
 }
 
-/* Map container styling */
-.map-container {
+button.button-secondary { /* Renamed from .secondary for clarity */
+  background-color: var(--background-secondary);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+button.button-secondary:hover:not(:disabled) {
+  background-color: color-mix(in srgb, var(--background-secondary) 90%, black);
+}
+/* Ensure loading spinner inside button is sized correctly */
+button .loading-spinner {
+  width: 16px;
+  height: 16px;
+  border-width: 2px; /* Make spinner lines thinner for smaller size */
+}
+
+
+/* Location Info & Map */
+.location-info { /* Applied to .location-info.card in JSX */
+  /* padding, margin, background-color, border-radius are handled by .card */
+  color: var(--text-primary); /* Default text color for this card */
+  text-align: center;
+}
+.location-info h3 {
+  /* color: var(--text-primary); /* Inherits from .location-info */
+  margin-bottom: var(--spacing-unit); /* Default h3 margin is usually fine */
+}
+.location-info p {
+  color: var(--text-secondary); /* Specific color for paragraph text */
+  margin-bottom: 0; /* Remove default p margin if it's the last element */
+}
+
+.map-container { /* Applied to .map-container.card in JSX */
   width: 100%;
-  height: 500px;
-  margin: 1rem 0;
-  border-radius: var(--border-radius);
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  position: relative;
+  height: 400px; 
+  /* margin-top, border-radius, overflow, border, box-shadow handled by .card */
 }
 
 .map-container .leaflet-container {
   width: 100% !important;
   height: 100% !important;
-  z-index: 1;
 }
 
-.photo-map-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-/* Layout containers */
-.layout-container {
-  width: 100%;
-  transition: all 0.5s ease;
-}
-
-.layout-container.centered {
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.layout-container.with-map {
-  max-width: 100%;
-}
-
-/* Responsive design */
-@media screen and (min-width: 992px) {
-  .layout-container.with-map {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-    align-items: start;
-  }
-  
-  .layout-container.with-map .upload-section {
-    grid-column: 1;
-  }
-  
-  .layout-container.with-map .map-section {
-    grid-column: 2;
-    margin-top: 0;
-  }
-  
-  .map-container .leaflet-container {
-    height: 500px !important;
-  }
-}
-
-@media screen and (max-width: 991px) {
-  .App-header h1 {
-    font-size: 2rem;
-  }
-  
-  .card {
-    padding: 1rem;
-  }
-  
-  .upload-container {
-    padding: 0.5rem;
-  }
-  
-  .map-section {
-    margin-top: 1.5rem;
-  }
-}
-
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.fade-in {
-  animation: fadeIn 0.5s ease-in;
-}
-
-/* Loading indicator */
+/* Loading Spinner - uses accent color */
 .loading-spinner {
   border: 4px solid rgba(0, 0, 0, 0.1);
   border-radius: 50%;
-  border-top: 4px solid var(--primary-color);
+  border-top-color: var(--accent-primary); /* Use accent color for spinner */
   width: 30px;
   height: 30px;
   animation: spin 1s linear infinite;
-  margin: 20px auto;
+  margin: 0; /* Reset margin for spinner inside button if any was added by global */
+  /* Size is now handled in button .loading-spinner */
 }
 
 @keyframes spin {
@@ -363,3 +317,86 @@ button:disabled {
   100% { transform: rotate(360deg); }
 }
 
+/* Messages */
+.error-message, .success-message {
+  padding: calc(var(--spacing-unit) * 1.5);
+  margin-top: calc(var(--spacing-unit) * 2); /* Ensure consistent top margin */
+  margin-bottom: calc(var(--spacing-unit) * 2); /* Ensure consistent bottom margin */
+  border-radius: var(--border-radius-medium); /* Updated to medium */
+  text-align: center;
+  width: 100%; /* Take full width of their container */
+}
+
+.error-message {
+  background-color: rgba(var(--error-rgb), 0.1); /* Using defined RGB for alpha */
+  color: var(--error-color);
+  /* border: 1px solid rgba(var(--error-rgb), 0.3); */ /* Optional: subtle border */
+}
+
+.success-message {
+  background-color: rgba(var(--success-rgb), 0.1); /* Using defined RGB for alpha */
+  color: var(--success-color);
+  /* border: 1px solid rgba(var(--success-rgb), 0.3); */ /* Optional: subtle border */
+}
+
+/* Responsive adjustments */
+/* The .App already centers content. If specific two-column layouts are needed later,
+   they would be introduced here or in component-specific CSS.
+   For now, this focuses on a single, scalable column. */
+
+@media screen and (max-width: 768px) {
+  .App {
+    padding: calc(var(--spacing-unit) * 2); /* Reduce padding on smaller screens */
+  }
+
+  main {
+    padding: var(--spacing-unit) 0;
+  }
+  
+  .App-header {
+    padding: var(--spacing-unit) 0;
+    margin-bottom: calc(var(--spacing-unit) * 2);
+  }
+
+  .App-header h1 {
+    font-size: 1.6rem; /* Adjust header font size */
+    text-align: center;
+  }
+
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.15rem; }
+
+  .card {
+    padding: calc(var(--spacing-unit) * 2);
+  }
+
+  .button-group {
+    flex-direction: column; /* Stack buttons on small screens */
+    align-items: stretch;
+  }
+  .button-group button {
+    width: 100%;
+  }
+}
+
+/* .layout-container styles are already defined and seem fine */
+/* .upload-section and .map-section are primarily for grid layout, no specific styling needed here beyond that */
+
+/* Ensure .card specific styles are applied correctly if used on upload-container, location-info, map-container */
+/* Example: if .upload-container is also a .card, it gets padding, border-radius, shadow from .card */
+/* This was handled in the JSX by adding 'card' className where appropriate. */
+
+footer {
+  width: 100%;
+  max-width: 1200px; /* Align with main content */
+  text-align: center;
+  padding: calc(var(--spacing-unit) * 2) 0;
+  margin-top: calc(var(--spacing-unit) * 3);
+  border-top: 1px solid var(--border-color); /* Subtle separator */
+}
+footer p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0; /* Remove default p margin */
+}

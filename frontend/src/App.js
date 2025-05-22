@@ -17,7 +17,7 @@ function App() {
         </div>
       </header>
       <main>
-        <div className="card fade-in">
+         <div className="card">
           <ImageUpload />
         </div>
         <footer>

@@ -1,4 +1,4 @@
-from PIL import Image as PILImage # Aliasing to avoid conflict if we name our model Image
+from PIL import Image as PILImage, UnidentifiedImageError # Aliasing to avoid conflict if we name our model Image
 from PIL.ExifTags import TAGS, GPSTAGS
 
 def get_exif_data(image_path):
@@ -18,6 +18,8 @@ def get_exif_data(image_path):
                     exif_data[decoded] = gps_data
                 else:
                     exif_data[decoded] = value
+    except UnidentifiedImageError:
+        raise ValueError("Cannot identify image file. The file may be corrupted or not a supported image format.")
     except Exception as e:
         print(f"Error reading EXIF data: {e}") # Replace with proper logging
     return exif_data
@@ -57,6 +59,7 @@ def process_image_data(image_path):
     """Processes an image to extract location data."""
     exif_data = get_exif_data(image_path)
     latitude, longitude = get_lat_lon(exif_data)
+    gps_data_found = bool(latitude is not None and longitude is not None)
     
     # Placeholder for future reverse geocoding to get address
     address = None 
@@ -65,6 +68,7 @@ def process_image_data(image_path):
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
+        'gps_data_found': gps_data_found, # New field
         'raw_exif': exif_data # Optional: for debugging or future use
     }
 
