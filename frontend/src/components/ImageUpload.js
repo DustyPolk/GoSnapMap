@@ -55,7 +55,7 @@ function ImageUpload() {
       }
 
       const result = await response.json();
-      setSuccess(result.message || 'Image processed successfully!');
+      setSuccess(result.message); // Use the message directly from the backend
       console.log('Upload result:', result);
 
       if (result.latitude != null && result.longitude != null) {

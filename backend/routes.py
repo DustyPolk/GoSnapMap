@@ -42,7 +42,22 @@ def upload_image():
             current_app.logger.error(f"Error saving file: {e}")
             return jsonify({'error': 'Could not save uploaded file.'}), 500
 
-        location_data = process_image_data(file_path)
+        try:
+            location_data = process_image_data(file_path)
+        except ValueError as e:
+            if str(e) == "Cannot identify image file. The file may be corrupted or not a supported image format.":
+                current_app.logger.error(f"Image processing error: {e}")
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                return jsonify({'error': 'Uploaded file is not a valid image. Please ensure it is a supported format (png, jpg, jpeg, gif) and not corrupted.'}), 400
+            else:
+                # Re-raise other ValueErrors
+                raise
+        except Exception as e: # Catch other potential errors from process_image_data
+            current_app.logger.error(f"Unexpected error during image processing: {e}")
+            if os.path.exists(file_path):
+                os.remove(file_path)
+            return jsonify({'error': 'An unexpected error occurred while processing the image.'}), 500
 
         try:
             new_image_record = Image(
@@ -56,15 +71,21 @@ def upload_image():
             )
             db.session.add(new_image_record)
             db.session.commit()
+
+            gps_data_found = location_data.get('gps_data_found', False)
+            user_message = 'Image uploaded and processed successfully.'
+            if not gps_data_found:
+                user_message = 'Image processed successfully, but no GPS data was found.'
             
             response_data = {
-                'message': 'Image uploaded and processed successfully.',
+                'message': user_message,
                 'imageId': new_image_record.id,
                 'filename': original_filename,
                 'storageName': storage_filename,
-                'latitude': new_image_record.latitude,
-                'longitude': new_image_record.longitude,
-                'address': new_image_record.address
+                'latitude': new_image_record.latitude, # Will be None if not found
+                'longitude': new_image_record.longitude, # Will be None if not found
+                'address': new_image_record.address,
+                'gps_data_found': gps_data_found
             }
             return jsonify(response_data), 201
         except Exception as e:
