@@ -1,0 +1,5 @@
+Flask
+Pillow
+Flask-CORS
+Flask-SQLAlchemy
+python-dotenv

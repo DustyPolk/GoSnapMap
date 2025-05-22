@@ -1,0 +1,31 @@
+import React from 'react';
+
+function MetadataDisplay({ metadata }) {
+  if (!metadata) {
+    return null; // Don't render anything if there's no metadata
+  }
+
+  // Helper to format timestamp if it exists
+  const formatTimestamp = (timestamp) => {
+    if (!timestamp) return 'N/A';
+    try {
+      return new Date(timestamp).toLocaleString();
+    } catch (e) {
+      return timestamp; // Return as is if not a valid date string
+    }
+  };
+
+  return (
+    <div style={{ marginTop: '20px', textAlign: 'left', padding: '15px', border: '1px solid #eee', borderRadius: '8px', backgroundColor: '#f9f9f9' }}>
+      <h3>Photo Details:</h3>
+      <p><strong>Filename:</strong> {metadata.filename || 'N/A'}</p>
+      <p><strong>Original Timestamp:</strong> {formatTimestamp(metadata.timestamp)}</p>
+      <p><strong>Latitude:</strong> {metadata.latitude != null ? metadata.latitude.toFixed(6) : 'N/A'}</p>
+      <p><strong>Longitude:</strong> {metadata.longitude != null ? metadata.longitude.toFixed(6) : 'N/A'}</p>
+      <p><strong>Altitude:</strong> {metadata.altitude != null ? `${metadata.altitude.toFixed(2)} meters` : 'N/A'}</p>
+      {/* You can add more fields here as needed, e.g., camera model, etc. */}
+    </div>
+  );
+}
+
+export default MetadataDisplay;
